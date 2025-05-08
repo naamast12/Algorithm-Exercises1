@@ -10,7 +10,7 @@ public class Main {
             System.out.println("\n==== תפריט תרגילים ====");
             System.out.println("1. תרגיל ראשון (תיאור של התרגיל)");
             System.out.println("2. קוטר של עץ (Tree Diameter)");
-            System.out.println("3. תרגיל שלישי (תיאור של התרגיל)");
+            System.out.println("3. גרף קשיר היטב (Strong Connectivity Checker)");
             System.out.print("הכנס את מספר הבחירה שלך: ");
 
             int choice = scanner.nextInt();
@@ -25,7 +25,7 @@ public class Main {
                     runTreeDiameter();
                     break;
                 case 3:
-                    runThirdExercise();
+                    runStrongConnectivityChecker();
                     break;
                 default:
                     System.out.println("בחירה לא חוקית.");
@@ -95,9 +95,31 @@ public class Main {
     }
 
 
-    // הפעלת תרגיל שלישי
-    private static void runThirdExercise() {
-        System.out.println("תרגיל שלישי (תיאור של התרגיל)");
-        // כאן נרשום את הקוד לתרגיל השלישי
+    // הפעלת תרגיל שלישי - גרף קשיר היטב
+    private static void runStrongConnectivityChecker() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("תרגיל שלישי - בדיקת האם גרף מכוון הוא קשיר היטב");
+
+        System.out.print("הכנס את מספר הצמתים בגרף: ");
+        int totalVertices = scanner.nextInt();
+
+        System.out.print("הכנס את מספר הקשתות בגרף: ");
+        int totalEdges = scanner.nextInt();
+
+        StrongConnectivityChecker checker = new StrongConnectivityChecker(totalVertices);
+
+        System.out.println("הכנס את הקשתות (מקור יעד):");
+        for (int i = 0; i < totalEdges; i++) {
+            int u = scanner.nextInt();
+            int v = scanner.nextInt();
+            checker.addEdge(u, v);
+        }
+
+        if (checker.isStronglyConnected()) {
+            System.out.println("הגרף קשיר היטב.");
+        } else {
+            System.out.println("הגרף אינו קשיר היטב.");
+        }
     }
+
 }
