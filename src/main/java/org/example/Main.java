@@ -1,5 +1,7 @@
 package org.example;
+import java.util.List;
 import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -40,8 +42,57 @@ public class Main {
 
     // הפעלת תרגיל ראשון
     private static void runFirstExercise() {
-        System.out.println("תרגיל ראשון (תיאור של התרגיל)");
-        // כאן נרשום את הקוד לתרגיל השלישי
+        char[][] board = {
+                {'R','W','W','W','W','W','W','W'},
+                {'B','W','W','W','B','W','R','W'},
+                {'B','B','W','W','W','W','W','W'},
+                {'W','W','W','W','W','W','B','W'},
+                {'W','R','W','W','W','W','B','W'},
+                {'W','W','B','W','W','W','W','W'},
+                {'W','B','B','B','W','W','B','W'},
+                {'W','W','W','W','W','B','W','W'},
+        };
+
+        List<RobotGrid.Point> robots = RobotGrid.extractRobotsFromBoard(board);
+        RobotGrid.Point result = RobotGrid.findBestMeetingPoint(board, robots);
+        printBoardWithRobotsAndTarget(board, robots, result);
+
+        if (result != null) {
+            System.out.println("\n✅ Best meeting point: (row:" + result.x + ", column:" + result.y + ")");
+            System.out.println("Cell type: " + board[result.x][result.y]);
+        } else {
+            System.out.println("❌ No common reachable point.");
+        }
+    }
+
+            private static void printBoardWithRobotsAndTarget(char[][] board, List<RobotGrid.Point> robots, RobotGrid.Point target) {
+                int n = board.length;
+                char[][] display = new char[n][n];
+
+                // Copy original board
+                for (int i = 0; i < n; i++)
+                    for (int j = 0; j < n; j++)
+                        display[i][j] = board[i][j] == 'B' ? '█' : ' ';
+
+                // Mark robots
+                for (RobotGrid.Point r : robots) {
+                    display[r.x][r.y] = 'R';
+                }
+
+                // Mark target (unless it's a robot location)
+                if (target != null && display[target.x][target.y] != 'R') {
+                    display[target.x][target.y] = '*'; // או ★
+                }
+
+                // Print
+                System.out.println("Board:");
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < n; j++) {
+                        System.out.print("[" + display[i][j] + "]");
+                    }
+                    System.out.println();
+                }
+
     }
 
     // הפעלת תרגיל TreeDiameter
